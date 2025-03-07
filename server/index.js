@@ -12,11 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 // Enable CORS
 app.use(cors(
-  {
-    origin: [""],
-    methods: ["POST", "GET"],
-    credentials: true
-  }
+  
 ));
 
 app.get("/", (req, res) => {
