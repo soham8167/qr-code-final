@@ -1,0 +1,299 @@
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Form Container */
+.container {
+  background: #131324;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  padding: 30px;
+  max-width: 450px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  transition: 0.3s ease-in-out;
+  border: 2px solid #00e6e6;
+}
+
+/* Hide form when ID card is displayed */
+.id-card-active .container {
+  display: none;
+}
+
+/* Heading */
+h1 {
+  font-size: 2em;
+  color: #00e6e6;
+  margin-bottom: 20px;
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #131324, #1e1e38);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  border: 2px solid #00bcd4;
+  transition: 0.3s ease-in-out;
+}
+
+/* Label Styling */
+label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #00e6e6;
+  margin-bottom: 5px;
+}
+
+/* Input Field Container */
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Input Fields */
+input, select, textarea {
+  width: 100%;
+  padding: 14px 45px 14px 14px; /* Space for icons */
+  margin: 12px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+/* Input Icons */
+.input-group i {
+  position: absolute;
+  right: 15px;
+  font-size: 20px;
+  color: #00e6e6;
+}
+
+/* Input Fields Hover & Focus */
+input:focus, select:focus, textarea:focus {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  border: 1px solid #00e6e6;
+  transform: scale(1.02);
+}
+
+/* Placeholder Text */
+input::placeholder, textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+}
+
+/* Submit Button */
+button {
+  background: linear-gradient(135deg, #00e6e6, #004d99);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 15px;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #004d99, #00e6e6);
+  transform: scale(1.05);
+}
+
+/* ID Card Styling */
+.id-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+/* Show ID card when active */
+.id-card-active .id-card-container {
+  opacity: 1;
+  max-height: 1000px;
+}
+
+.id-card {
+  background: #131324;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 255, 255, 0.2);
+  max-width: 550px;
+  width: 100%;
+  color: white;
+  text-align: center;
+  border: 2px solid #00e6e6;
+  position: relative;
+}
+
+/* Back button for ID card */
+.back-button {
+  position: absolute;
+  margin-right: 10px;
+  top: -12px;
+  left: 10px;
+  background: rgba(0, 230, 230, 0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(0, 230, 230, 0.5);
+}
+
+.id-title {
+  font-size: 1.6em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #00e6e6;
+}
+
+.id-subtitle {
+  font-size: 1.3em;
+  margin-bottom: 15px;
+  opacity: 0.8;
+  color: #ccc;
+}
+
+.id-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image img {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 15px;
+  border: 2px solid #00e6e6;
+  object-fit: cover;
+}
+
+.info-section {
+  width: 100%;
+}
+
+.info-section p {
+  margin: 8px 0;
+  font-size: 1.1em;
+}
+
+.qr-sec img {
+  margin-top: 15px;
+  width: 100px;
+  height: 100px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+    max-width: 90%;
+  }
+  h1 {
+    font-size: 1.8em;
+  }
+  form {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5em;
+  }
+  input, select, textarea {
+    font-size: 14px;
+    padding: 10px;
+  }
+  button {
+    font-size: 16px;
+    padding: 10px;
+  }
+  .id-title {
+    font-size: 1.5em;
+  }
+  .id-subtitle {
+    font-size: 1.1em;
+  }
+  .info-section p {
+    font-size: 0.9em;
+  }
+}
+
+/* ID Card Responsive Layout */
+@media (min-width: 768px) {
+  .id-content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+  .image {
+    flex: 1;
+    text-align: left;
+  }
+  .info-section {
+    flex: 2;
+    text-align: left;
+    padding: 0 20px;
+  }
+  .qr-sec {
+    flex: 1;
+    text-align: right;
+  }
+}
+
+/* Print-friendly styles */
+@media print {
+  body, html {
+    background: white;
+    color: black;
+  }
+  .container, .back-button {
+    display: none !important;
+  }
+  .id-card-container {
+    display: block !important;
+    opacity: 1 !important;
+    max-height: none !important;
+  }
+  .id-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}
