@@ -20,9 +20,6 @@ app.use(cors(
   }
 ));
 
-app.get("/", (req, res) => {
-  res.json("Hi");
-});
 
 // Route to handle ID card generation
 app.post("/generate-id-card", async (req, res) => {
