@@ -1,4 +1,5 @@
 
+
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import './Form.css';
@@ -9,7 +10,8 @@ import {
   FormLabel,
   FormErrorMessage,
   FormHelperText,
-  Input
+  Input,
+  useToast
 } from '@chakra-ui/react';
 
 const Form = () => {
@@ -20,6 +22,7 @@ const Form = () => {
   const [idcard, setIdCard] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showIdCard, setShowIdCard] = useState(false);
+  const toast = useToast();
 
   const nameValid = useRef(null);
   const emailValid = useRef(null);
@@ -65,25 +68,67 @@ const Form = () => {
     e.preventDefault();
 
     if (!name) {
-      alert('Enter your name');
+      toast({
+        title: "Error",
+        description: "Enter your name",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       nameValid.current.focus();
     } else if (name.length < 3 || name.length > 20) {
-      alert('Enter a valid name');
+      toast({
+        title: "Error",
+        description: "Enter a valid name (3-20 characters)",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       nameValid.current.focus();
     } else if (!email) {
-      alert('Enter your email');
+      toast({
+        title: "Error",
+        description: "Enter your email",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       emailValid.current.focus();
     } else if (!email.endsWith('@gmail.com')) {
-      alert('Enter a valid email');
+      toast({
+        title: "Error",
+        description: "Enter a valid email",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       emailValid.current.focus();
     } else if (!phno) {
-      alert('Enter your phone number');
+      toast({
+        title: "Error",
+        description: "Enter your phone number",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       phnoValid.current.focus();
     } else if (phno.length !== 10) {
-      alert('Enter a valid phone number');
+      toast({
+        title: "Error",
+        description: "Enter a valid 10-digit phone number",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       phnoValid.current.focus();
     } else if (!image) {
-      alert('Upload a photo');
+      toast({
+        title: "Error",
+        description: "Upload a photo",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       imageValid.current.focus();
     } else {
       setLoading(true);
@@ -103,10 +148,14 @@ const Form = () => {
         };
 
         try {
-          // Use relative URL for API calls to work both locally and in production
-          const apiUrl = process.env.NODE_ENV === 'production' 
-            ? '/api/generate-id-card' 
-            : 'http://localhost:8000/generate-id-card';
+          // Fixed API URL handling for Vercel deployment
+          // This will work correctly with serverless functions in /api directory
+          let apiUrl = '/api/generate-id-card';
+          
+          // Only use localhost in development
+          if (process.env.NODE_ENV === 'development') {
+            apiUrl = 'http://localhost:8000/generate-id-card';
+          }
             
           const response = await axios.post(apiUrl, payload, {
             headers: { 'Content-Type': 'application/json' },
@@ -114,9 +163,22 @@ const Form = () => {
           
           setIdCard(response.data);
           setShowIdCard(true); // Show ID card after successful generation
+          toast({
+            title: "Success",
+            description: "ID Card generated successfully!",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
         } catch (err) {
-          console.log('Error while calling API:', err);
-          alert('Failed to generate ID card. Please try again.');
+          console.error('Error while calling API:', err);
+          toast({
+            title: "Error",
+            description: "Failed to generate ID card. Please try again.",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
         } finally {
           setLoading(false);
         }
@@ -134,7 +196,7 @@ const Form = () => {
       <div className="container">
         <h1><b>Generate Student ID Card</b></h1>
         <form onSubmit={submitData}>
-          <FormControl isInvalid={isError}>
+          <FormControl isInvalid={isError} mb={4}>
             <FormLabel>Name <sup style={{ color: 'red' }}>*</sup></FormLabel>
             <Input
               type="text"
@@ -142,11 +204,12 @@ const Form = () => {
               value={name}
               ref={nameValid}
               onChange={handleNameChange}
+              placeholder="Enter your full name"
             />
             {!isError ? <FormHelperText></FormHelperText> : <FormErrorMessage>Name is required.</FormErrorMessage>}
           </FormControl>
 
-          <FormControl isInvalid={emailError}>
+          <FormControl isInvalid={emailError} mb={4}>
             <FormLabel>Email <sup style={{ color: 'red' }}>*</sup></FormLabel>
             <Input
               type="email"
@@ -154,12 +217,13 @@ const Form = () => {
               value={email}
               ref={emailValid}
               onChange={handleEmailChange}
+              placeholder="example@gmail.com"
               required
             />
             {!emailError ? <FormHelperText></FormHelperText> : <FormErrorMessage>Email is required.</FormErrorMessage>}
           </FormControl>
 
-          <FormControl isInvalid={phnoError}>
+          <FormControl isInvalid={phnoError} mb={4}>
             <FormLabel>Mobile No <sup style={{ color: 'red' }}>*</sup></FormLabel>
             <Input
               type="number"
@@ -167,35 +231,44 @@ const Form = () => {
               value={phno}
               ref={phnoValid}
               onChange={handlePhnoChange}
+              placeholder="10-digit mobile number"
             />
             {!phnoError ? <FormHelperText></FormHelperText> : <FormErrorMessage>Mobile number is required.</FormErrorMessage>}
           </FormControl>
 
-          <FormControl isInvalid={imageError}>
+          <FormControl isInvalid={imageError} mb={4}>
             <FormLabel>Upload Your Photo <sup style={{ color: 'red' }}>*</sup></FormLabel>
             <Input
               type="file"
               name="image"
               ref={imageValid}
               onChange={handleImageChange}
+              accept="image/*"
             />
-            {!imageError ? (
+            {image ? (
               <FormHelperText>
-                <span style={{ color: 'green' }}>Photo uploaded</span>
+                <span style={{ color: 'green' }}>Photo uploaded: {image.name}</span>
               </FormHelperText>
             ) : (
               <FormErrorMessage>Photo is required.</FormErrorMessage>
             )}
           </FormControl>
 
-          <Button type="submit" colorScheme="blue" isLoading={loading}>
+          <Button 
+            type="submit" 
+            colorScheme="blue" 
+            isLoading={loading} 
+            loadingText="Generating..."
+            width="100%"
+            mt={2}
+          >
             Generate ID Card
           </Button>
         </form>
       </div>
 
       {idcard && (
-        <div className="id-card-container">
+        <div className={`id-card-container ${showIdCard ? 'visible' : ''}`}>
           <div className="id-card">
             <button className="back-button" onClick={goBackToForm}>
               ←
