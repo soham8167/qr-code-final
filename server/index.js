@@ -13,12 +13,13 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 // Enable CORS
 app.use(cors(
-  
+  {
+    origin: [""],
+  methods: ["POST", "GET"],
+  credentials: true
+  }
 ));
 
-app.get("/", (req, res) => {
-  res.json("Hi");
-});
 
 // Route to handle ID card generation
 app.post("/generate-id-card", async (req, res) => {
